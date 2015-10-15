@@ -7,11 +7,11 @@
 //
 
 import UIKit
+import Alamofire
 
 class DetailViewController: UIViewController {
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
-
+    @IBOutlet weak var detailTextView: UITextView!
 
     var detailItem: AnyObject? {
         didSet {
@@ -23,10 +23,23 @@ class DetailViewController: UIViewController {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail = self.detailItem {
-            if let label = self.detailDescriptionLabel {
-                label.text = detail.description
+            
+            //Only for test purposes, no real utility...
+            performNetworkRequestAndUpdateDetails()
+            
+            if let textView = self.detailTextView {
+                textView.text = detail.description
             }
         }
+    }
+    
+    private func performNetworkRequestAndUpdateDetails() {
+        Alamofire.request(.GET, "https://httpbin.org/get")
+            .responseString { response in
+                if let textView = self.detailTextView {
+                    textView.text! += "\n" + response.result.value!
+                }
+            }
     }
 
     override func viewDidLoad() {

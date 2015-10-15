@@ -2,7 +2,7 @@ PODS:
   - Alamofire (3.0.0)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (~> 3.0)
 
 SPEC CHECKSUMS:
   Alamofire: b61782387f81bcc538a0284cf2bb5d7995cd0a80

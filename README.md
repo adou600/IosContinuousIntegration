@@ -1,10 +1,11 @@
 # Continuous Integration with Fastlane and Jenkins
 
-Demo project which can be used to setup continuous integration for iOS 9 projects. 
+Demo project which can be used to test how continuous integration works for iOS 9 applications. 
 
-Follow the steps outlined in this document to set up continuous integration with Fastlane and Jenkins.
+Follow the steps outlined in this document to set up a minimal continuous integration workflow with Fastlane and Jenkins.
 
 ## Environment and Tools installed
+
  - Mac OS 10.11 El Capitan
  - Xcode 7.0.1
  - iOS 9 project with cocoapods setup for Alamofire 3.0.0
@@ -28,8 +29,10 @@ At the time of the writing:
 
 ### Init Fastlane for your project
 
-   - ```cd IosContinuousIntegration```
-   -  Initialize fastlane with ```fastlane init```, making sure to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now. 
+   - [Fork](https://help.github.com/articles/fork-a-repo/) the IosContinuousIntegration repository, so that you can push changes to it later on. 
+   - Clone the forked repository: `git clone git@github.com:YOUR-GITHUB-USERNAME/IosContinuousIntegration.git`
+   - `cd IosContinuousIntegration`
+   -  Initialize Fastlane with `fastlane init`, making sure to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now. 
 
 ```
 My-MacBook-Pro:IosContinuousIntegration adou600$ fastlane init

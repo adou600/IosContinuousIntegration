@@ -1,6 +1,6 @@
 # Continuous Integration with Fastlane and Jenkins
 
-Demo project which can be used to test how continuous integration works for iOS 9 applications. 
+Demo project which can be used to test continuous integration for iOS 9 applications.
 
 Follow the steps outlined in this document to set up a minimal continuous integration workflow with Fastlane and Jenkins.
 

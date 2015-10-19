@@ -1,10 +1,13 @@
-# IosContinuousIntegration
-Minimal setup which can be used to perform continuous integration for iOS 9 projects with Jenkins and Fastlane. 
+# Continuous Integration with Fastlane and Jenkins
 
-## Environment and Tools
+Demo project which can be used to setup continuous integration for iOS 9 projects. 
+
+Follow the steps outlined in this document to set up continuous integration with Fastlane and Jenkins.
+
+## Environment and Tools installed
  - Mac OS 10.11 El Capitan
  - Xcode 7.0.1
- - iOS 9 project with cocoapods (Alamofire 3.0.0)
+ - iOS 9 project with cocoapods setup for Alamofire 3.0.0
  - RubyGems 2.4.8
  - Fastlane 1.33.4
  - Jenkins 1.634
@@ -12,19 +15,21 @@ Minimal setup which can be used to perform continuous integration for iOS 9 proj
 
 ## Install and configure fastlane in your project
 
-The first step to be able to perform continuous integration is to find a way to run the tests of your project with the command line. We will use [the awesome fastlane](https://fastlane.tools), but xcodebuild or [Xcode bots](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/) can do it as well. 
+The first step to be able to perform continuous integration is to find a way to build your project and run the tests with the command line. We will use [the awesome fastlane](https://fastlane.tools), but [Xcode bots](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/) can do it as well. 
+
 
 ### Install fastlane
 
- - See the official documentation: https://github.com/KrauseFx/fastlane#installation
- - At the time of the writing: 
+See the official documentation: https://github.com/KrauseFx/fastlane#installation
+
+At the time of the writing: 
    - ```sudo gem install fastlane --verbose```
    - ```xcode-select --install```
 
 ### Init Fastlane for your project
 
    - ```cd IosContinuousIntegration```
-   -  Initialize fastlane with ```fastlane init```, making sur  to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now. 
+   -  Initialize fastlane with ```fastlane init```, making sure to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now. 
 
 ```
 My-MacBook-Pro:IosContinuousIntegration adou600$ fastlane init
@@ -93,7 +98,6 @@ fastlane_version "1.33.4"
 
 default_platform :ios
 
-
 platform :ios do
 
   before_all do
@@ -120,9 +124,9 @@ end
 # More information about multiple platforms in fastlane:
 # https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
 ```
-   - This lane uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
+   - The lane called test uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
-   - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, it will add an archive in the Xcode organizer and the Unit and UI tests will be executed. 
+   - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, this will add an archive in the Xcode organizer and the Unit and UI tests will be executed. 
 ```
 ... 
 [10:18:42]: [SHELL]: 
@@ -151,34 +155,34 @@ end
 
 ## Install and configure Jenkins
 
-Now that you have a lane running your tests, you need a CI server which will allow you to automatically run `fastlane ios test` to know if your tests pass. 
+Now that you have a lane running your tests, you need a CI server which will allow you to automatically run `fastlane ios test` for every commit.
 
-Note: to be able to run your tests for an iOS project, you will need a Mac with Xcode installed. Jenkins will then be installed on a Mac. The following steps will assume you install Jenkins on the same machine you write your code, for simplification. But in a real-life setup, Jenkins runs on a different machine, so that the tests can be executed for every commit in the repository. Thus, every developer can watch what in the last commit made the tests fail through the Jenkins web server. 
+Note: to be able to run your tests for an iOS project, you will need a Mac with Xcode installed and Fastlane installed. Thus, Jenkins has to be installed on a Mac. For simplification, the following steps will assume you install Jenkins on the same machine you write your code. But in a real-life setup, Jenkins would run on a different machine, so that the tests can be executed for every commit in the repository and so thatb every developer can check what in the last commit made the tests fail through the Jenkins web server. 
 
 ### Install jenkins
 
- - Install jenkins: `brew update && brew install jenkins`
- - Start jenkins: `jenkins`
- - Browse jenkins on http://localhost:8080
- - Install jenkins plugins which will help you checkout out your code from github, run the tests and display the results. 
-   - Manage Jenkins / Manage plugins / Available
+ - Install Jenkins: `brew update && brew install jenkins`
+ - Start Jenkins: `jenkins`
+ - Browse Jenkins on http://localhost:8080
+ - Install Jenkins plugins which will help you checkout out your code from Github, run the tests and display the results. 
+   - Go to Manage Jenkins / Manage plugins / Available
    - Select the following plugins and click "Download and install after restart":
      - AnsiColor: show colored output of Fastline log files
      - GIT: allow the use of Git as a build SCM
    - Restart Jenkins by checking "Restart Jenkins when installation is complete and no jobs are running". 
      ![Restart Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/install-jenkins-plugins.png)
-   - Make sure the plugins are installed. They should be visible in Manage Jenkins / Manage plugins / Installed. .
+   - Make sure the plugins are installed. They should be visible in Manage Jenkins / Manage plugins / Installed.
 
 ### Create a build job
 
-Create a build job which will start on every commit pushed to the project repository.
+Create a build job which will start on every commit pushed to the repository.
 
  - New Item / Freestyle project, enter your build job name and click ok
 ![Create a build job](https://dl.dropboxusercontent.com/u/664542/github-doc-images/jenkins-build-job.png)
- - Configure Source Code Management by choosing GIT and entering the SSH URL of your repository (github in the example).
+ - Configure Source Code Management by choosing GIT and entering the SSH URL of your repository (Github in the example).
 ![Configure SCM](https://dl.dropboxusercontent.com/u/664542/github-doc-images/source-code-management.png)
- - If you get a "Permission denied error", make sure the user running jenkins has an SSH key in the [Github profile](https://github.com/settings/ssh). See the doc on [help.github.com](https://help.github.com/articles/generating-ssh-keys/)
- - Configure Build Triggers to periodically check wether there is a new commit in the repo. We use here the polling approach from jenkins to the repository. Push notifications from the repository to jenkins is another way of doing it. See [the Git Plugin doc](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin#GitPlugin-Pushnotificationfromrepository)
+ - If you get a "Permission denied error", make sure the user running Jenkins has an SSH key set in the [Github profile](https://github.com/settings/ssh). See the doc on [help.github.com](https://help.github.com/articles/generating-ssh-keys/)
+ - Configure Build Triggers to periodically check wether there is a new commit in the repo. We use here the polling approach from Jenkins to the repository. Push notifications from the repository to Jenkins is another way of doing it. See [the Git Plugin doc](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin#GitPlugin-Pushnotificationfromrepository)
 ![Configure Build Triggers](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-trigger-config.png)
 
  - Configure AnsiColor to get the right colors in the console output of Jenkins. 
@@ -201,12 +205,12 @@ Create a build job which will start on every commit pushed to the project reposi
 
 ![Build history](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-success.png)
 
- - By clicking on the build number, you can watch the full console output log. 
- - As final test, make a test fail in your project, commit and push the change. After max 1 minute, the build job should automatically start. After a while, the build history should contain a red bubble, identifying a failed build. 
- - Fix the test, commit and push again and make sure the jenkins build is blue again.
+ - By clicking on the build number, you can obtain information about the build, like the full console output log. 
+ - As a final test, make a test fail in your project, commit and push the change. After max 1 minute, the build job should automatically start. After a while, the build history should contain a red bubble, identifying a failed build. 
+ - Fix the test, commit and push again and make sure the Jenkins build is blue again.
 
 ![Build history with failed build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-failed.png)
  
 ### Next steps
 
-Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or authorization to access jenkins are example of best practices in CI servers. A ton of jenkins plugins are available for almost all your needs: [Jenkins Plugins Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Plugins)
+Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or setup authorization to access Jenkins are features widely used in CI servers. A ton of Jenkins plugins are available for almost all your needs: [Jenkins Plugins Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Plugins)

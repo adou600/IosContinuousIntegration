@@ -203,8 +203,10 @@ Create a build job which will start on every commit pushed to the project reposi
 
  - By clicking on the build number, you can watch the full console output log. 
  - As final test, make a test fail in your project, commit and push the change. After max 1 minute, the build job should automatically start. After a while, the build history should contain a red bubble, identifying a failed build. 
- - Fix the test, commit and push again and make sure the jenkins build is blue again. 
+ - Fix the test, commit and push again and make sure the jenkins build is blue again.
+
+![Build history with failed build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-failed.png)
  
 ### Next steps
 
-Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or authorization to access jenkins are example of best practices in CI servers. 
+Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or authorization to access jenkins are example of best practices in CI servers. A ton of jenkins plugins are available for almost all your needs: [Jenkins Plugins Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Plugins)

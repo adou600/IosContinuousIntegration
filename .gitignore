@@ -31,3 +31,8 @@ Pods/
 # Carthage/Checkouts
 
 Carthage/Build
+
+# Fastlane
+fastlane/report.xml
+fastlane/File
+IosContinuousIntegration.app.dSYM.zip

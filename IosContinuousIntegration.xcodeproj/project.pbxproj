@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A541A3201BD4CFB70030333E /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = A541A31F1BD4CFB70030333E /* fastlane */; settings = {ASSET_TAGS = (); }; };
 		A5CDD0CF1BCE267B00E6F2BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CDD0CE1BCE267B00E6F2BD /* AppDelegate.swift */; };
 		A5CDD0D11BCE267B00E6F2BD /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CDD0D01BCE267B00E6F2BD /* MasterViewController.swift */; };
 		A5CDD0D31BCE267B00E6F2BD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CDD0D21BCE267B00E6F2BD /* DetailViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A541A31F1BD4CFB70030333E /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		A5CDD0CB1BCE267B00E6F2BD /* IosContinuousIntegration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IosContinuousIntegration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CDD0CE1BCE267B00E6F2BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5CDD0D01BCE267B00E6F2BD /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 		A5CDD0C21BCE267B00E6F2BD = {
 			isa = PBXGroup;
 			children = (
+				A541A31F1BD4CFB70030333E /* fastlane */,
 				A5CDD0CD1BCE267B00E6F2BD /* IosContinuousIntegration */,
 				A5CDD0E41BCE267B00E6F2BD /* IosContinuousIntegrationTests */,
 				A5CDD0EF1BCE267B00E6F2BD /* IosContinuousIntegrationUITests */,
@@ -260,6 +263,7 @@
 			files = (
 				A5CDD0DB1BCE267B00E6F2BD /* LaunchScreen.storyboard in Resources */,
 				A5CDD0D81BCE267B00E6F2BD /* Assets.xcassets in Resources */,
+				A541A3201BD4CFB70030333E /* fastlane in Resources */,
 				A5CDD0D61BCE267B00E6F2BD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,6 +482,7 @@
 			baseConfigurationReference = F948CF43E344133CA66A3944 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = IosContinuousIntegration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.adriennicolet.ios.IosContinuousIntegration;
@@ -490,6 +495,7 @@
 			baseConfigurationReference = D62ACA2B1ABA618EAFBB02E9 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 2;
 				INFOPLIST_FILE = IosContinuousIntegration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ch.adriennicolet.ios.IosContinuousIntegration;

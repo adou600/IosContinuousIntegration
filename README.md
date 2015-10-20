@@ -155,7 +155,6 @@ Create a build job which will start on every commit pushed to the repository.
  - Configure Slack Notification Plugin so that every information about the build gets posted in a channel you watch.
 ![Configure Slack Notifier](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-info-to-slack.png)
 
-
  - Add a build step which will run the lane:
 
 ![Add build step](https://dl.dropboxusercontent.com/u/664542/github-doc-images/add-build-step.png)
@@ -163,6 +162,10 @@ Create a build job which will start on every commit pushed to the repository.
  - Configure the build step by writing the same command we ran locally `fastlane ios test`:
 
 ![Add build step](https://dl.dropboxusercontent.com/u/664542/github-doc-images/configure-build-step.png)
+
+- Add a post build step to enable Slack notifications
+
+![Slack Post build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/post-build-slack.png)
 
  - Click save to persist the changes.
 

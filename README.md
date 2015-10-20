@@ -125,9 +125,17 @@ Note: to be able to run your tests for an iOS project, you will need a Mac with 
    - Select the following plugins and click "Download and install after restart":
      - AnsiColor: show colored output of Fastline log files
      - GIT: allow the use of Git as a build SCM
+     - Slack Notification Plugin: can publish build status to Slack channels.
    - Restart Jenkins by checking "Restart Jenkins when installation is complete and no jobs are running". 
      ![Restart Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/install-jenkins-plugins.png)
    - Make sure the plugins are installed. They should be visible in Manage Jenkins / Manage plugins / Installed.
+
+### Configure Slack Integration
+
+Don't forget to activate a Jenkins Integration for the wanted Slack channel in the Slack Settings: [https://your-team.slack.com/services](https://your-team.slack.com/services). 
+
+You can also access it directly from the channel, with "+ Add a service integration".
+![Configure Slack Integration for Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/slack-service-integration.png)
 
 ### Create a build job
 
@@ -143,6 +151,10 @@ Create a build job which will start on every commit pushed to the repository.
 
  - Configure AnsiColor to get the right colors in the console output of Jenkins. 
 ![Configure AnsiColor](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-env-config.png)
+
+ - Configure Slack Notification Plugin so that every information about the build gets posted in a channel you watch.
+![Configure Slack Notifier](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-info-to-slack.png)
+
 
  - Add a build step which will run the lane:
 

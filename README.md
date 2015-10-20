@@ -77,58 +77,11 @@ Optional: The scheme name of your app (If you don't need one, just hit Enter): I
 
    - For an easier access to Fastlane files, drag the fastlane folder inside your Xcode project. 
       ![Drag fastlane folder Xcode](https://dl.dropboxusercontent.com/u/664542/github-doc-images/drag-fastlane-folder.png)
-   - Open fastlane/Fastfile and replace its content with a single lane running the tests using `xctest`. The app is build using `gym`, before each lane. 
-```Ruby
-# Customise this file, documentation can be found here:
-# https://github.com/KrauseFx/fastlane/tree/master/docs
-# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
-# can also be listed using the `fastlane actions` command
+   - Open fastlane/Fastfile and replace its content with a single lane running the tests using `xctest`. The app is built using `gym`, before each lane. See [the example Fastfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Fastfile). 
 
-# Change the syntax highlighting to Ruby
-# All lines starting with a # are ignored when running `fastlane`
-
-# By default, fastlane will send which actions are used
-# No personal data is shared, more information on https://github.com/fastlane/enhancer
-# Uncomment the following line to opt out
-#opt_out_usage
-
-# If you want to automatically update fastlane if a new version is available:
-update_fastlane
-
-# This is the minimum version number required.
-# Update this, if you use features of a newer version
-fastlane_version "1.33.4"
-
-default_platform :ios
-
-platform :ios do
-
-  before_all do
-    cocoapods
-    increment_build_number
-    gym(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", use_legacy_build_api: true)
-  end
-
-  desc "Runs all the tests"
-  lane :test do
-    xctest(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", destination: "name=iPhone 5s,OS=9.0")
-  end
-
-  after_all do |lane|
-
-  end
-
-  error do |lane, exception|
-    say "error in lane! "
-  end
-
-end
-
-# More information about multiple platforms in fastlane:
-# https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
-```
    - The lane called test uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
+
    - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, this will add an archive in the Xcode organizer and the Unit and UI tests will be executed. 
 ```
 ... 
@@ -217,3 +170,11 @@ Create a build job which will start on every commit pushed to the repository.
 ### Next steps
 
 Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or setup authorization to access Jenkins are features widely used in CI servers. A ton of Jenkins plugins are available for almost all your needs: [Jenkins Plugins Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Plugins)
+
+# References
+
+Those articles and books are good references to go deeper in this topic:
+ - http://martinfowler.com/books/continuousDelivery.html
+ - https://github.com/KrauseFx/fastlane/blob/master/docs/Jenkins.md
+ - http://www.cimgf.com/2015/05/26/setting-up-jenkins-ci-on-a-mac-2/
+ - https://rnorth.org/11/automated-ui-testing-in-xcode-7

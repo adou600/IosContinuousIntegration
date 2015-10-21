@@ -85,6 +85,7 @@ Optional: The scheme name of your app (If you don't need one, just hit Enter): I
 
    - For an easier access to Fastlane files, drag the fastlane folder inside your Xcode project. 
       ![Drag fastlane folder Xcode](https://dl.dropboxusercontent.com/u/664542/github-doc-images/drag-fastlane-folder.png)
+
    - Open fastlane/Fastfile and replace its content with a single lane running the tests using `xctest`. The app is built using `gym`, before each lane. See [the full Fastfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Fastfile). The key parts are:
      - `gym(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", use_legacy_build_api: true)`
        - Specifying the `workspace` allows to build a project using cocoapoads.
@@ -98,31 +99,9 @@ Optional: The scheme name of your app (If you don't need one, just hit Enter): I
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
 
    - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, this will add an archive in the Xcode organizer and the Unit and UI tests will be executed. 
-```
-... 
-[10:18:42]: [SHELL]: 
-[10:18:42]: [SHELL]: 	 Executed 1 test, with 0 failures (0 unexpected) in 0.003 (0.005) seconds
-[10:18:42]: [SHELL]: .
-[10:18:42]: [SHELL]: 
-[10:18:42]: [SHELL]: 	 Executed 1 test, with 0 failures (0 unexpected) in 11.777 (11.778) seconds
-[10:18:42]: [SHELL]: 
 
-+------+-------------------------------------+-------------+
-|                     fastlane summary                     |
-+------+-------------------------------------+-------------+
-| Step | Action                              | Time (in s) |
-+------+-------------------------------------+-------------+
-| 1    | update_fastlane                     | 10          |
-| 2    | Verifying required fastlane version | 0           |
-| 3    | default_platform                    | 0           |
-| 4    | cocoapods                           | 3           |
-| 5    | increment_build_number              | 0           |
-| 6    | gym                                 | 39          |
-| 7    | xctest                              | 22          |
-+------+-------------------------------------+-------------+
-
-[10:18:42]: fastlane.tools finished successfully 🎉
-```
+![Fastlane console result](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-console-result.png)
+*Abstract of the result output for the command `fastlane ios test`*
 
 ## Install and configure Jenkins
 
@@ -151,6 +130,10 @@ Don't forget to activate a Jenkins Integration for the wanted Slack channel in t
 
 You can also access it directly from the channel, with "+ Add a service integration".
 ![Configure Slack Integration for Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/slack-service-integration.png)
+
+Posting all the build info into a Slack channel allows the team to get informed about build failures. They can discuss about it and get notified when everything is back to normal. Slack works on every OS and you can enable [push notifications](https://slack.zendesk.com/hc/en-us/articles/201398457-Mobile-push-notifications) on your mobile. 
+
+![Why using Slack?](https://dl.dropboxusercontent.com/u/664542/github-doc-images/why-slack.png)
 
 ### Create a build job
 

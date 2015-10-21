@@ -12,7 +12,7 @@ import XCTest
 class IosContinuousIntegrationTests: XCTestCase {
     
     func testExample() {
-        XCTAssertEqual(2 + 2, 4)
+        XCTAssertEqual(2 + 2, 5)
     }
     
 }

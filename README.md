@@ -8,16 +8,16 @@ Follow the steps outlined in this document to set up a minimal continuous integr
 
  - Mac OS 10.11 El Capitan
  - Xcode 7.0.1
- - iOS 9 project with cocoapods setup for Alamofire 3.0.0
+ - iOS 9 project with cocoapods setup for Alamofire 3.0.1
  - RubyGems 2.4.8
- - Fastlane 1.33.4
+ - Fastlane 1.33.6
  - Jenkins 1.634
  
 ## Why Fastlane? Why Jenkins?
 
 If you want to have continuous integration for your project and get rid of the expensive build master, the first step is to find a way to build your code and run the tests with the command line. We will use [the awesome fastlane](https://fastlane.tools) in this tutorial, but [Xcode bots](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/) could do it as well. 
 
-Fastlane can easily be integrated into Jenkins especially because the output produced by the executed lane is much more human readable than the output produced by ```xcodebuild```. See for example [Gym](https://github.com/fastlane/gym). Jenkins is known to be very flexible, thanks to the enormous amount of maintained plugins available. Combining the flexibility of Jenkins and power of Fastlane should allow to cover almost any scenario of delivery for your app. Xcode bots is however a bit more rigid but might be slightly less tricky to configure. 
+Fastlane can easily be integrated into Jenkins especially because the output produced by the executed lane is much more human readable than the output produced by `xcodebuild`. See for example [Gym](https://github.com/fastlane/gym) and [Felix's blog](https://krausefx.com/blog/ios-tools). Jenkins is known to be very flexible, thanks to the enormous amount of maintained plugins available. Combining the flexibility of Jenkins and power of Fastlane should allow to cover almost any scenario of delivery for your app. Xcode bots is however a bit more rigid but might be slightly less tricky to configure. 
 
 Fastlane provides a bunch of tools in the command line which can be used to automate the deployment of your apps. Building the app and running the test is just one of the task that can be achieved by Fastlane. It comes in a form of a config file where you define your lanes. Besides running the tests, several useful workflow can be imagined thanks to [various actions](https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md). [Snapshot](https://github.com/KrauseFx/snapshot) allows to automatically take the screenshots of your app in several languages, [Deliver](https://github.com/KrauseFx/deliver) uploads your screenshots and metadata to the App Store, [Cert](https://github.com/fastlane/cert) helps manage the iOS code signing certificates,... And that's just the tip of the iceberg. 
 
@@ -40,7 +40,7 @@ At the time of the writing:
    - [Fork](https://help.github.com/articles/fork-a-repo/) the IosContinuousIntegration repository, so that you can push changes to it later on. 
    - Clone the forked repository: `git clone git@github.com:YOUR-GITHUB-USERNAME/IosContinuousIntegration.git`
    - `cd IosContinuousIntegration`
-   -  Initialize Fastlane with `fastlane init`, making sure to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now. 
+   -  Initialize Fastlane with `fastlane init`, making sure to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now because this tutorial focuses on continuous integration. 
 
 ```
 My-MacBook-Pro:IosContinuousIntegration adou600$ fastlane init
@@ -85,7 +85,14 @@ Optional: The scheme name of your app (If you don't need one, just hit Enter): I
 
    - For an easier access to Fastlane files, drag the fastlane folder inside your Xcode project. 
       ![Drag fastlane folder Xcode](https://dl.dropboxusercontent.com/u/664542/github-doc-images/drag-fastlane-folder.png)
-   - Open fastlane/Fastfile and replace its content with a single lane running the tests using `xctest`. The app is built using `gym`, before each lane. See [the example Fastfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Fastfile). 
+   - Open fastlane/Fastfile and replace its content with a single lane running the tests using `xctest`. The app is built using `gym`, before each lane. See [the full Fastfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Fastfile). The key parts are:
+     - `gym(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", use_legacy_build_api: true)`
+       - Specifying the `workspace` allows to build a project using cocoapoads.
+       - If a `workspace` is specified, the `scheme` is mandatory. There are indeed 3 schemes in this demo app: IosContinuousIntegration, Alamofire and Pods. 
+       - `use_legacy_build_api` fixes an [issue of the Apple build tool](https://openradar.appspot.com/radar?id=4952000420642816) by using the old way of building and signing. 
+     - `xctest(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", destination: "name=iPhone 5s,OS=9.0")`
+       - `destination` allows to specify which simulator will run the test. If you get an error while starting the simulator, try to [reset the simulators](http://stackoverflow.com/questions/2763733/how-to-reset-iphone-simulator). 
+       - `workspace` and `scheme` need to be the same as for the gym command.
 
    - The lane called test uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)

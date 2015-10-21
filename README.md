@@ -172,7 +172,7 @@ Create a build job which will start on every commit pushed to the repository.
 ### Test the build job
 
  - Click Build Now to make sure the build step is working. 
- - If everything worked as expected, you should see a blue bubble in the left of your build history.
+ - If everything worked as expected, you should see a blue bubble in the left of your build history in Jenkins.
 
 ![Build history](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-success.png)
 
@@ -181,6 +181,10 @@ Create a build job which will start on every commit pushed to the repository.
  - Fix the test, commit and push again and make sure the Jenkins build is blue again.
 
 ![Build history with failed build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-failed.png)
+
+ - Notifications should also have been sent to your configured slack channel.
+
+![Slack Build Notifications](https://dl.dropboxusercontent.com/u/664542/github-doc-images/slack-integration-result.png)
  
 ### Next steps
 

@@ -13,19 +13,27 @@ Follow the steps outlined in this document to set up a minimal continuous integr
  - Fastlane 1.33.4
  - Jenkins 1.634
  
+## Why Fastlane? Why Jenkins?
 
-## Install and configure fastlane in your project
+If you want to have continuous integration for your project and get rid of the expensive build master, the first step is to find a way to build your code and run the tests with the command line. We will use [the awesome fastlane](https://fastlane.tools) in this tutorial, but [Xcode bots](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/) could do it as well. 
 
-The first step to be able to perform continuous integration is to find a way to build your project and run the tests with the command line. We will use [the awesome fastlane](https://fastlane.tools), but [Xcode bots](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/) can do it as well. 
+Fastlane can easily be integrated into Jenkins especially because the output produced by the executed lane is much more human readable than the output produced by ```xcodebuild```. See for example [Gym](https://github.com/fastlane/gym). Jenkins is known to be very flexible, thanks to the enormous amount of maintained plugins available. Combining the flexibility of Jenkins and power of Fastlane should allow to cover almost any scenario of delivery for your app. Xcode bots is however a bit more rigid but might be slightly less tricky to configure. 
 
+Fastlane provides a bunch of tools in the command line which can be used to automate the deployment of your apps. Building the app and running the test is just one of the task that can be achieved by Fastlane. It comes in a form of a config file where you define your lanes. Besides running the tests, several useful workflow can be imagined thanks to [various actions](https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md). [Snapshot](https://github.com/KrauseFx/snapshot) allows to automatically take the screenshots of your app in several languages, [Deliver](https://github.com/KrauseFx/deliver) uploads your screenshots and metadata to the App Store, [Cert](https://github.com/fastlane/cert) helps manage the iOS code signing certificates,... And that's just the tip of the iceberg. 
+
+Fastlane is an opensource project developed by Felix Krause. As we can see on his repository, it seems that most of the commits come from him directly. He is reviewing [lots of pull requests](https://github.com/KrauseFx/fastlane/pulls?q=is%3Aopen+is%3Apr) from the community and most of them are merged. In my opinion, we then have a quite low [bus factor](https://en.wikipedia.org/wiki/Bus_factor) for this project. What happens if our project delivery workflow is based on Fatlane and Felix starts to work for the concurrence or decides to stop working on that project? It is opensource indeed, but the amount of work he is achieving alone is incredible. So incredible that apparently, Apple [approached him to start an internship](http://www.uclan.ac.uk/news/apple_headhunts_uclan_student.php) in the silicon valley during fall 2015. I find myself dreaming of a Fastlane integrated in the official Apple toolchain, where every new iOS release directly comes with an updated and stable Fastlane... In the meantime, I still feel confident about using those tools, the community beeing so enthusiastic and reactive about it. 
+
+## Install and configure fastlane for your project
+
+We will use Fastlane to build the project and run the tests with the command line. Make sure this works fine before starting to [configure Jenkins](## Install and configure Jenkins). 
 
 ### Install fastlane
 
 See the official documentation: https://github.com/KrauseFx/fastlane#installation
 
 At the time of the writing: 
-   - ```sudo gem install fastlane --verbose```
-   - ```xcode-select --install```
+   - `sudo gem install fastlane --verbose`
+   - `xcode-select --install`
 
 ### Init Fastlane for your project
 

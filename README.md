@@ -58,7 +58,7 @@ At the time of the writing:
 
    - The lane called test uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
-*Where to set the current project version. Don't forget to click "All".*
+*Where to set the current project version. Make sure "All" is selected and not "Basic".*
 
    - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, this will add an archive in the Xcode organizer and the Unit and UI tests will be executed. 
 ![Fastlane console result](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-console-result.png)
@@ -93,7 +93,7 @@ Don't forget to activate a Jenkins Integration for the wanted Slack channel in t
 
 You can also access it directly from the channel, with "+ Add a service integration".
 ![Configure Slack Integration for Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/slack-service-integration.png)
-*A Slack channel right after creation, with the link "+ Add service integraiton"*
+*A Slack channel right after creation, with the link "+ Add service integration"*
 
 Posting all the build info into a Slack channel allows the team to get informed about build failures. They can discuss about it and get notified when everything is back to normal. Slack works on every OS and you can enable [push notifications](https://slack.zendesk.com/hc/en-us/articles/201398457-Mobile-push-notifications) on your mobile. 
 

@@ -8,7 +8,7 @@ Follow the steps outlined in this document to set up a minimal continuous integr
 
  - Mac OS 10.11 El Capitan
  - Xcode 7.0.1
- - iOS 9 project with cocoapods setup for Alamofire 3.0.1
+ - iOS 9 project with cocoapods setup for Alamofire 3.1.1
  - RubyGems 2.4.8
  - Fastlane 1.33.6
  - Jenkins 1.634
@@ -47,14 +47,14 @@ At the time of the writing:
    - For an easier access to Fastlane files, drag the fastlane folder inside your Xcode project. 
 ![Drag fastlane folder into Xcode](https://dl.dropboxusercontent.com/u/664542/github-doc-images/drag-fastlane-folder.png)
 
-   - Open fastlane/Fastfile and replace its content with a single lane running the tests using `xctest`. The app is built using `gym`, before each lane. See [the full Fastfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Fastfile). The key parts are:
+   - Open fastlane/Fastfile and replace its content with a single lane running the tests using `scan`. The app is built using `gym`, before each lane. See [the full Fastfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Fastfile). The key parts are:
      - `gym(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", use_legacy_build_api: true)`
        - Specifying the `workspace` allows to build a project using cocoapoads.
        - If a `workspace` is specified, the `scheme` is mandatory. There are indeed 3 schemes in this demo app: IosContinuousIntegration, Alamofire and Pods. 
        - `use_legacy_build_api` fixes an [issue of the Apple build tool](https://openradar.appspot.com/radar?id=4952000420642816) by using the old way of building and signing. 
-     - `xctest(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", destination: "name=iPhone 5s,OS=9.0")`
-       - `destination` allows to specify which simulator will run the test. If you get an error while starting the simulator, try to [reset the simulators](http://stackoverflow.com/questions/2763733/how-to-reset-iphone-simulator). 
-       - `workspace` and `scheme` need to be the same as for the gym command.
+     - `scan --device "iPhone 6s"`
+        - `device` allows to force the simulator to use to run the tests.
+        - `scan` can be configured with the help fo a [Scanfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Scanfile). In this example, it is used to set the scheme of the application: "IosContinuousIntegration".
 
    - The lane called test uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
@@ -150,6 +150,8 @@ Create a build job which will start on every commit pushed to the repository.
 
 Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or setup authorization to access Jenkins are features widely used in CI servers. A ton of Jenkins plugins are available for almost all your needs: [Jenkins Plugins Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Plugins)
 
+TODO: speak about page object pattern for UI tests
+
 # References
 
 Those articles and books are good references to go deeper in this topic:
@@ -157,3 +159,4 @@ Those articles and books are good references to go deeper in this topic:
  - https://github.com/KrauseFx/fastlane/blob/master/docs/Jenkins.md
  - http://www.cimgf.com/2015/05/26/setting-up-jenkins-ci-on-a-mac-2/
  - https://rnorth.org/11/automated-ui-testing-in-xcode-7
+ - https://github.com/fastlane/scan

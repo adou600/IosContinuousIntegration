@@ -31,7 +31,7 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    xctest(scheme: "IosContinuousIntegration", workspace: "IosContinuousIntegration.xcworkspace", destination: "name=iPhone 5s,OS=9.0")
+    scan --device "iPhone 6s"
   end
 
   after_all do |lane|

@@ -31,7 +31,7 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan --device "iPhone 6s"
+    scan(device: "iPhone 6s")
   end
 
   after_all do |lane|

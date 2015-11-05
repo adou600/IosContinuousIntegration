@@ -12,6 +12,7 @@ Follow the steps outlined in this document to set up a minimal continuous integr
  - RubyGems 2.4.8
  - Fastlane 1.33.6
  - Jenkins 1.634
+ - Cocoapods 0.39.0
  
 ## Why Fastlane? Why Jenkins?
 
@@ -29,18 +30,20 @@ We will use Fastlane to build the project and run the tests with the command lin
 
 ### Install fastlane
 
-See the official documentation: https://github.com/KrauseFx/fastlane#installation
+See the official documentation: https://github.com/fastlane/fastlane#installation
 
 At the time of the writing: 
    - `sudo gem install fastlane --verbose`
    - `xcode-select --install`
+   - From time to time, slow launch times of Fastlane can be experienced. As suggested in the [documentation](https://github.com/fastlane/fastlane#installation), a `gem cleanup` can fix the issue. 
+   - The lane we will be using also requires Cocoapods gem to be installed: `sudo gem install cocoapods`
 
 ### Init Fastlane for your project
 
    - [Fork](https://help.github.com/articles/fork-a-repo/) the IosContinuousIntegration repository, so that you can push changes to it later on. 
    - Clone the forked repository: `git clone git@github.com:YOUR-GITHUB-USERNAME/IosContinuousIntegration.git`
    - `cd IosContinuousIntegration`
-   -  Initialize Fastlane with `fastlane init`, making sure to enter an App Identifier, your apple ID and the scheme name of the app. It is not necessary to setup deliver, snapshot and sigh for now because this tutorial focuses on continuous integration. You can init each of them later on, for example with `deliver init`. Check the [full console output](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-init-console-output.txt) for more details. 
+   -  Initialize Fastlane with `fastlane init`, making sure to enter an App Identifier, your apple ID and the scheme name of the app (IosContinuousIntegration). It is not necessary to setup deliver, snapshot and sigh for now because this tutorial focuses on continuous integration. You can init each of them later on, for example with `deliver init`. Check the [full console output](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-init-console-output.txt) for more details. 
 
 ### Create your testing lane
 
@@ -52,17 +55,17 @@ At the time of the writing:
        - Specifying the `workspace` allows to build a project using cocoapoads.
        - If a `workspace` is specified, the `scheme` is mandatory. There are indeed 3 schemes in this demo app: IosContinuousIntegration, Alamofire and Pods. 
        - `use_legacy_build_api` fixes an [issue of the Apple build tool](https://openradar.appspot.com/radar?id=4952000420642816) by using the old way of building and signing. 
-     - `scan --device "iPhone 6s"`
+     - `scan(device: "iPhone 6s")`
         - `device` allows to force the simulator to use to run the tests.
         - `scan` can be configured with the help fo a [Scanfile](https://github.com/adou600/IosContinuousIntegration/blob/master/fastlane/Scanfile). In this example, it is used to set the scheme of the application: "IosContinuousIntegration".
 
-   - The lane called test uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
+   - The lane called `test` uses the action "increment_build_number" which requires a Build number set in Xcode. Set it by clicking on the target, Build Settings tab and search for CURRENT_PROJECT_VERSION
 ![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
 *Where to set the current project version. Make sure "All" is selected and not "Basic".*
 
-   - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, this will add an archive in the Xcode organizer and the Unit and UI tests will be executed. 
+   - Make sure the lane is working by running `fastlane ios test`. Thanks to gym, an archive will be added in the Xcode organizer. The Unit and UI tests will also be executed. 
 ![Fastlane console result](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-console-result.png)
-*Abstract of the result output for the command `fastlane ios test`. 1 Unit Test and 1 UI Test have been executed.*
+*Result output for the command `fastlane ios test`. 1 Unit Test and 1 UI Test have been executed.*
 
 ## Install and configure Jenkins
 
@@ -150,7 +153,7 @@ Create a build job which will start on every commit pushed to the repository.
 
 Now that you have a running CI server for your project, you can continue improving it continuously... Sending emails in case of a broken build or setup authorization to access Jenkins are features widely used in CI servers. A ton of Jenkins plugins are available for almost all your needs: [Jenkins Plugins Wiki](https://wiki.jenkins-ci.org/display/JENKINS/Plugins)
 
-TODO: speak about page object pattern for UI tests
+Setting up a CI Server for a project is a very important step. But in order to benefit from it and make this practice last the distance, the tests have to remain stable and maintainable. You want to make sure that every broken build means: "the last commit broke something", and not: "the test failed but I believe everything is working because the tests are flaky". This is why using the Xcode recorder and let the code unchanged to write your UI tests is not enough. Indeed, the generated code is very sensitive to every change made in the user interface. A common pattern in testing helping avoid it is the [Page Object pattern](http://martinfowler.com/bliki/PageObject.html). It comes from the Web technologies but can be easily adapted to iOS. The idea is to create an object which knows how to interact with the UI. This object is used in every test. The main advantage is clear: if the UI changes, you only have to update this object and all the test using this page (or this view) will benefit from the change. The Xcode test recorder can still be used to figure out how to interact with the UI, but the generated code needs then to go inside the corresponding Page Object and made more generic. The following article can be a good starting point: https://rnorth.org/11/automated-ui-testing-in-xcode-7. 
 
 # References
 
@@ -159,4 +162,3 @@ Those articles and books are good references to go deeper in this topic:
  - https://github.com/KrauseFx/fastlane/blob/master/docs/Jenkins.md
  - http://www.cimgf.com/2015/05/26/setting-up-jenkins-ci-on-a-mac-2/
  - https://rnorth.org/11/automated-ui-testing-in-xcode-7
- - https://github.com/fastlane/scan

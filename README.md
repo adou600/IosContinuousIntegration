@@ -1,6 +1,6 @@
 # Continuous Integration with Fastlane and Jenkins
 
-Developing complex Mobile applications requires the same level of engineering than any other web application. Oddly, it seems to be less common. It was at least the case in 2013, as stated by a colleague Reto Zenger: [Continuous Delivery für iOS Apps](http://blog.zuehlke.com/continuous-delivery-fur-ios-apps/). I wanted to figure out why and invested some time setting it up. Baby steps are always advised, therefore, I will concentrate here on Continuous Integration. I will guide you through the all the steps needed to have a running CI server and present you the tips and tricks I learned. You will see that Continuous Integration for mobile applications is nowadays pretty easy, thanks to a tooling which has improved a lot in the last months. 
+This is the demo project linked to the blog article available on the [Zühlke Blog](http://blog.zuehlke.com/en/continuous-integration-for-mobile-apps-with-fastlane-and-jenkins/). 
 
 Follow the steps outlined in this document to set up a minimal continuous integration workflow with Fastlane and Jenkins.
 
@@ -13,20 +13,6 @@ Follow the steps outlined in this document to set up a minimal continuous integr
  - Fastlane 1.37.0
  - Jenkins 1.634
  - Cocoapods 0.39.0
- 
-## Why Fastlane? Why Jenkins?
-
-If you want get rid of the expensive build master, the first step is to find a way to build your app and run the tests with the command line. I want to present you my favorite: the [the awesome Fastlane](https://fastlane.tools). But other tools like [Xcode bots](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/xcode_guide-continuous_integration/) are potential alternatives.
-
-Fastlane provides a bunch of tools which help to automate the deployment of apps. Lanes are defined in a file within your Xcode project. Besides running the tests, several useful workflow can be imagined thanks to [various actions](https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md). [Snapshot](https://github.com/KrauseFx/snapshot) allows to automatically take the screenshots of your app in several languages, [Deliver](https://github.com/KrauseFx/deliver) uploads your screenshots and metadata to the App Store, [Cert](https://github.com/KrauseFx/cert) helps to manage the iOS code signing certificates... And that's just the tip of the iceberg.
-
-Fastlane and Jenkins work well together, especially because the output produced by the executed lane is much more human readable than what xcodebuild produces. Besides, the commands are really simple to remember, with lots of sensible defaults and a [clean syntax](https://krausefx.com/blog/ios-tools). Jenkins is known to be very flexible, thanks to the enormous amount of maintained [plugins](https://wiki.jenkins-ci.org/display/JENKINS/Plugins) available. Combining the flexibility of Jenkins and the power of Fastlane should allow to cover almost any scenario of delivery for your app. 
-
-Fastlane is open source and developed by Felix Krause. As we can see on his repository, most of the commits are from him directly. He is however merging [lots of pull requests](https://github.com/KrauseFx/fastlane/pulls?q=is%3Aopen+is%3Apr) from the community. The amount of work Felix has achieved is impressive. His work was so incredible that [Apple approached him](http://www.uclan.ac.uk/news/apple_headhunts_uclan_student.php) to start an internship in the Silicon Valley. Moreover, in October 2015, [Fabric](https://get.fabric.io/ios), a widely used build tool for apps, announced that Fastlane will be [integrated in their tool and supported by their team](https://fabric.io/blog/welcoming-fastlane-to-fabric). Felix can now work 100% on Fastlane, which is a very good news if one want to make sure that it remains functional for every new iOS version.
-
-Last but not least, the [Android developers](https://github.com/fastlane/fastlane/blob/master/docs/Android.md) now also benefit from Fastlane. This helps of course to standardize the deployment process of your apps. *One tool to rule them all*, they say.
-
-Still not convinced about those tools? Just scroll down to learn how to configure it.
 
 ## Install and configure fastlane for your project
 
@@ -151,14 +137,6 @@ Posting all the build info into a Slack channel allows the team to get informed 
  - Fix the test, commit and push again and make sure the Jenkins returns to blue.
 ![Build history with failed build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-failed.png)
 *Example of a build history on Jenkins, with 2 sussessful builds (#1 and #3) and 1 failed build (#2)*
-
- 
-### Next steps
-
-Having a CI server for your project, you can now keep improving it incrementally... Sending emails in case of a broken build or configure authorizations to access Jenkins are widely used features on CI servers. 
-
-Setting up a CI Server for a project is a very important step. But in order to benefit from it and make it last the distance, the tests have to remain stable and maintainable. You want to make sure that every broken build means: "the last commit broke something", and not: "the test failed but I believe everything works nevertheless because the tests are flaky". This is why using only the Xcode recorder to write your UI tests is not enough. Indeed, the generated code is very sensitive to the changes made in the user interface. A common pattern in testing helping avoid it is the [Page Object pattern](http://martinfowler.com/bliki/PageObject.html). The idea is to create an object which knows how to interact with the UI. This object is used by every test. The main advantage is clear: if the UI changes, the update needs to be done only to this object and all the test using this page (or this view for iOS) will benefit from the change. The Xcode test recorder can still be used to figure out how to interact with the UI, but the generated code needs then to move inside the corresponding Page Object. The following article can be a good starting point: https://rnorth.org/11/automated-ui-testing-in-xcode-7.
-Happy delivery, and keep automating!
 
 
 # References

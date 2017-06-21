@@ -34,7 +34,7 @@ Initialize Fastlane with `fastlane init`, in the root of your Xcode project. Ent
 
 ### Create your testing lane
 For an easier access to Fastlane files, drag the fastlane folder inside your Xcode project. 
-![Drag fastlane folder into Xcode](https://dl.dropboxusercontent.com/u/664542/github-doc-images/drag-fastlane-folder.png)
+![Drag fastlane folder into Xcode](https://www.dropbox.com/s/wiyq3pry29r0l53/drag-fastlane-folder.png)
 
 Open fastlane/Fastfile and create a simple testing lane. These are the key elements:
 

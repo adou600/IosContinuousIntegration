@@ -30,11 +30,11 @@ At the time of the writing:
 
 ### Init Fastlane for your project
 
-Initialize Fastlane with `fastlane init`, in the root of your Xcode project. Enter an App Identifier, your apple ID and the scheme name of the App. If you want to start simple, do not setup deliver, snapshot and sigh. They can be initialized later on, for example with `deliver init`. Check the [full console output](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-init-console-output.txt) of my installtion for more details.
+Initialize Fastlane with `fastlane init`, in the root of your Xcode project. Enter an App Identifier, your apple ID and the scheme name of the App. If you want to start simple, do not setup deliver, snapshot and sigh. They can be initialized later on, for example with `deliver init`. Check the [full console output](http://adriennicolet.ch/images_github/fastlane-init-console-output.txt) of my installtion for more details.
 
 ### Create your testing lane
 For an easier access to Fastlane files, drag the fastlane folder inside your Xcode project. 
-![Drag fastlane folder into Xcode](https://www.dropbox.com/s/wiyq3pry29r0l53/drag-fastlane-folder.png)
+![Drag fastlane folder into Xcode](http://adriennicolet.ch/images_github/drag-fastlane-folder.png)
 
 Open fastlane/Fastfile and create a simple testing lane. These are the key elements:
 
@@ -49,11 +49,11 @@ Open fastlane/Fastfile and create a simple testing lane. These are the key eleme
 
 The lane called `test` uses the action increment_build_number which requires a Build number set in Xcode. Set it by clicking on the target / Build Settings tab and search for CURRENT_PROJECT_VERSION
 
-![Current project version in build settings](https://dl.dropboxusercontent.com/u/664542/github-doc-images/current-project-version.png)
+![Current project version in build settings](http://adriennicolet.ch/images_github/current-project-version.png)
 *Set the current project version in Xcode. Make sure "All" is selected in the header, and not "Basic".*
 
 Make sure the lane is working by running `fastlane ios test`. Thanks to gym, an archive will be added in the Xcode organizer. The Unit and UI tests will also be executed in the simulator.
-![Fastlane console result](https://dl.dropboxusercontent.com/u/664542/github-doc-images/fastlane-console-result.png)
+![Fastlane console result](http://adriennicolet.ch/images_github/fastlane-console-result.png)
 *Result output for the command `fastlane ios test`. 1 Unit Test and 1 UI Test have been executed.*
 
 ## Install and configure Jenkins
@@ -74,7 +74,7 @@ Now that you have a lane running the tests, you need a CI server executing it au
      - GIT: allow the use of Git as a build SCM
      - Slack Notification Plugin: can publish build status to Slack channels.
    - Restart Jenkins by checking "Restart Jenkins when installation is complete and no jobs are running". 
-![Restart Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/install-jenkins-plugins.png)
+![Restart Jenkins](http://adriennicolet.ch/images_github/install-jenkins-plugins.png)
 *What can be seen while installing a plugin.*
    -	The installed plugins are visible in Manage Jenkins / Manage plugins / Installed.
 
@@ -83,30 +83,30 @@ Now that you have a lane running the tests, you need a CI server executing it au
 The build job is what will start the lane for every new commit pushed to the repository.
 
  - New Item / Freestyle project, enter a build job name and click ok
-![Create a build job](https://dl.dropboxusercontent.com/u/664542/github-doc-images/jenkins-build-job.png)
+![Create a build job](http://adriennicolet.ch/images_github/jenkins-build-job.png)
 
  - Configure Source Code Management by choosing GIT and entering the SSH URL of the repository.
-![Configure SCM](https://dl.dropboxusercontent.com/u/664542/github-doc-images/source-code-management.png)
+![Configure SCM](http://adriennicolet.ch/images_github/source-code-management.png)
 
  - If you get a Permission denied error, make sure the user running Jenkins has an SSH key set in his [Github profile](https://help.github.com/articles/generating-ssh-keys/). 
 
  - Configure Build Triggers to periodically check whether there is a new commit in the repo. We use here the polling approach from Jenkins to the repository. [Push notifications](https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin#GitPlugin-Pushnotificationfromrepository) from the repository to Jenkins is another alternative.
-![Configure Build Triggers](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-trigger-config.png)
+![Configure Build Triggers](http://adriennicolet.ch/images_github/build-trigger-config.png)
 
  - Configure AnsiColor to get the right colors in the console output of Jenkins. 
-![Configure AnsiColor](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-env-config.png)
+![Configure AnsiColor](http://adriennicolet.ch/images_github/build-env-config.png)
 
  - Configure Slack Notification Plugin so that every information about the build gets posted in a channel.
-![Configure Slack Notifier](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-info-to-slack.png)
+![Configure Slack Notifier](http://adriennicolet.ch/images_github/build-info-to-slack.png)
 
  - Add a build step which will run the lane:
-![Add build step](https://dl.dropboxusercontent.com/u/664542/github-doc-images/add-build-step.png)
+![Add build step](http://adriennicolet.ch/images_github/add-build-step.png)
 
  - Configure the build step by writing the same command we ran locally:
-![Add build step](https://dl.dropboxusercontent.com/u/664542/github-doc-images/configure-build-step.png)
+![Add build step](http://adriennicolet.ch/images_github/configure-build-step.png)
 
 - Add a post-build action to enable Slack notifications
-![Slack Post build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/post-build-slack.png)
+![Slack Post build](http://adriennicolet.ch/images_github/post-build-slack.png)
 
  - Click save to persist the changes.
 
@@ -114,28 +114,28 @@ The build job is what will start the lane for every new commit pushed to the rep
 
 Don't forget to activate a [Jenkins Integration](https://slack.com/integrations) in your Slack channel.
 
-![Configure Slack Integration for Jenkins](https://dl.dropboxusercontent.com/u/664542/github-doc-images/slack-service-integration.png)
+![Configure Slack Integration for Jenkins](http://adriennicolet.ch/images_github/slack-service-integration.png)
 *A Slack channel right after creation, with the link to add a service integration*
 
 Posting all the build info into a Slack channel allows the team to get informed about build failures. They can discuss about it and get notified when everything is back to normal. Slack works on every OS and [push notifications](https://slack.zendesk.com/hc/en-us/articles/201398457-Mobile-push-notifications) can be enable on the Slack's mobile app. 
 
-![Why using Slack?](https://dl.dropboxusercontent.com/u/664542/github-doc-images/why-slack.png)
+![Why using Slack?](http://adriennicolet.ch/images_github/why-slack.png)
 *Example of what can be achieved when using Slack notifications for every build*
 
 ### Test the build job
 
  - On Jenkins Webapp, click Build Now to make sure the build step is working.
  - If everything worked as expected, you should see a blue bubble in the left of your build history in Jenkins.
-![Build history](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-success.png)
+![Build history](http://adriennicolet.ch/images_github/build-history-success.png)
 *Example of a build history on Jenkins containing only 1 successful build*
 
  - Click on the build number to get more information like the full console output. 
  - Notifications should also have been sent to the configured slack channel.
- ![Slack Build Notifications](https://dl.dropboxusercontent.com/u/664542/github-doc-images/slack-integration-result.png)
+ ![Slack Build Notifications](http://adriennicolet.ch/images_github/slack-integration-result.png)
 *What you should see in your Slack channel after this manual test build*
  - As a final test, find a way to make your tests fail, and then commit and push the change. After max 1 minute, the build job should automatically start. After about a minute or two, the build history should contain a red bubble, identifying a failed build. 
  - Fix the test, commit and push again and make sure the Jenkins returns to blue.
-![Build history with failed build](https://dl.dropboxusercontent.com/u/664542/github-doc-images/build-history-failed.png)
+![Build history with failed build](http://adriennicolet.ch/images_github/build-history-failed.png)
 *Example of a build history on Jenkins, with 2 sussessful builds (#1 and #3) and 1 failed build (#2)*
 
 
